@@ -1,0 +1,109 @@
+package Models;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
+
+import javax.swing.JFileChooser;
+
+import Controls.FileMessage;
+
+
+
+public class Client {
+	private Socket socket;
+	private ObjectOutputStream objectOutputStream;
+	
+	public Client() throws UnknownHostException, IOException {
+		this.socket = new Socket("localhost", 5555);
+		this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+		
+		new Thread(new ListenerSocket(socket)).start();
+		
+		menu();
+	}
+	
+	public void menu() throws IOException {
+		Scanner sc = new java.util.Scanner(System.in);
+		System.out.println("your name: ");
+		String name = sc.nextLine();
+		 sc.nextLine();
+		
+		this.objectOutputStream.writeObject(new FileMessage(name));
+		
+		int op = 0;
+		
+		while ( op != 1) {
+			System.out.println("1 finish 2- Send");
+			op = sc.nextInt();
+			if        ( op == 2 ) {
+				send(name);
+			} else if ( op == 1 ) {
+				System.exit(0);
+			}
+		}
+	}
+	
+	private void send(String name) throws IOException {
+		// TODO Auto-generated method stub
+		JFileChooser fileChooser = new JFileChooser();
+		int op = fileChooser.showOpenDialog(null);
+		if (op == JFileChooser.APPROVE_OPTION){
+			File file = fileChooser.getSelectedFile();
+			this.objectOutputStream.writeObject(new FileMessage(name, file));
+		}
+	}
+
+	private class ListenerSocket implements Runnable {
+			
+		private ObjectInputStream inputStream;
+		
+		public ListenerSocket( Socket socket ) throws IOException {
+			this.inputStream = new ObjectInputStream(socket.getInputStream());
+		}
+		
+		
+		
+		
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			FileMessage fileMessage = null;
+			try {
+				while ( ( fileMessage = (FileMessage) inputStream.readObject() ) != null ) {
+					System.out.println("New file type: "+ fileMessage.getClient());
+					//System.out.println("Name file: "+ fileMessage.ge);
+					printer(fileMessage);
+				}
+			} catch (Exception e) {
+					// TODO: handle exception
+			}
+		}
+
+
+
+
+		private void printer(FileMessage fileMessage) throws IOException {
+			// TODO Auto-generated method stub
+			FileReader fileReader = new FileReader(fileMessage.getFile());
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			String lane ;
+				while( (lane = bufferedReader.readLine()) != null ) {
+					System.out.println(lane + "Read now");
+				}
+		}
+		
+	}
+	
+	public static void main(String[] args) throws UnknownHostException, IOException {
+		System.out.println("Helloy word");
+		new Client();
+	}
+}

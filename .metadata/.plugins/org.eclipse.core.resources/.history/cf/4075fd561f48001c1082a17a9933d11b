@@ -1,0 +1,15 @@
+package Controls;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+
+import Models.Client;
+
+public class Main {
+
+	public static void main(String[] args) throws UnknownHostException, IOException {
+		System.out.println("Helloy word");
+		new Client();
+	}
+
+}
