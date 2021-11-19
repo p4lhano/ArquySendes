@@ -42,11 +42,7 @@ public class Client {
 		nameClient = name;
 		 sc.nextLine();
 		
-		 FileMensageBuilder fileMensageBuilder = new FileMensageBuilder();
-			
-		 
-		//this.objectOutputStream.writeObject(new FileMessage(name));
-		this.objectOutputStream.writeObject(fileMensageBuilder.setClient(name).getResult());
+		this.objectOutputStream.writeObject(new FileMessage(name));
 		
 		int op = 0;
 		
@@ -72,11 +68,7 @@ public class Client {
 			
 			
 			//this.objectOutputStream.writeObject(new FileMessage(name, file));
-			this.objectOutputStream.writeObject(fileMensageBuilder.
-					setClient(name).
-					setFile(file).
-					getResult()
-					);
+			this.objectOutputStream.writeObject(fileMensageBuilder.setClient(name).setFile(file).getResult());
 		}
 	}
 
@@ -98,7 +90,7 @@ public class Client {
 			try {
 				while ( ( fileMessage = (FileMessage) inputStream.readObject() ) != null ) {
 					System.out.println("New file from: "+ fileMessage.getClient());
-					System.out.println("Name file : "+ fileMessage.getFile().getName());
+					
 					//printer(fileMessage);
 					
 					saveFile(fileMessage);

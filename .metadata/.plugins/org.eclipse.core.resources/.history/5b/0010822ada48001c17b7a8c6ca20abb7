@@ -13,7 +13,6 @@ public class FileMessage implements Serializable {
 		this.client = client;
 		this.file = file;
 	}
-/*
 	public FileMessage(String client) {
 		super();
 		this.client = client;
@@ -22,7 +21,7 @@ public class FileMessage implements Serializable {
 		super();
 		
 	}
-*/
+
 
 	public String getClient() {
 		return client;

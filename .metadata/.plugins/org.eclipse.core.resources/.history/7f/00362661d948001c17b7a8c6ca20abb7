@@ -16,7 +16,6 @@ import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 
-import Buiders.FileMensageBuilder;
 import Controls.FileMessage;
 
 
@@ -42,11 +41,7 @@ public class Client {
 		nameClient = name;
 		 sc.nextLine();
 		
-		 FileMensageBuilder fileMensageBuilder = new FileMensageBuilder();
-			
-		 
-		//this.objectOutputStream.writeObject(new FileMessage(name));
-		this.objectOutputStream.writeObject(fileMensageBuilder.setClient(name).getResult());
+		this.objectOutputStream.writeObject(new FileMessage(name));
 		
 		int op = 0;
 		
@@ -67,16 +62,7 @@ public class Client {
 		int op = fileChooser.showOpenDialog(null);
 		if (op == JFileChooser.APPROVE_OPTION){
 			File file = fileChooser.getSelectedFile();
-			
-			FileMensageBuilder fileMensageBuilder = new FileMensageBuilder();
-			
-			
-			//this.objectOutputStream.writeObject(new FileMessage(name, file));
-			this.objectOutputStream.writeObject(fileMensageBuilder.
-					setClient(name).
-					setFile(file).
-					getResult()
-					);
+			this.objectOutputStream.writeObject(new FileMessage(name, file));
 		}
 	}
 
@@ -98,7 +84,7 @@ public class Client {
 			try {
 				while ( ( fileMessage = (FileMessage) inputStream.readObject() ) != null ) {
 					System.out.println("New file from: "+ fileMessage.getClient());
-					System.out.println("Name file : "+ fileMessage.getFile().getName());
+					
 					//printer(fileMessage);
 					
 					saveFile(fileMessage);

@@ -1,0 +1,8 @@
+package Buiders;
+
+import java.io.File;
+
+public interface Builder {
+		void setClient(String client);
+		void setFile(File file) ;
+}
