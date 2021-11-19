@@ -19,6 +19,7 @@ public class Server {
 	
 	public Server() {
 		try {
+			System.out.println("Server quase ONLINE port 5555");
 			serverSocket = new ServerSocket(5555);
 			System.out.println("Server ONLINE port 5555");
 			while (true) {

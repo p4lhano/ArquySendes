@@ -23,7 +23,6 @@ import Controls.FileMessage;
 public class Client {
 	private Socket socket;
 	private ObjectOutputStream objectOutputStream;
-	private String nameClient;
 	
 	public Client() throws UnknownHostException, IOException {
 		this.socket = new Socket("localhost", 5555);
@@ -38,7 +37,6 @@ public class Client {
 		Scanner sc = new java.util.Scanner(System.in);
 		System.out.println("your name: ");
 		String name = sc.nextLine();
-		nameClient = name;
 		 sc.nextLine();
 		
 		this.objectOutputStream.writeObject(new FileMessage(name));
@@ -85,7 +83,7 @@ public class Client {
 				while ( ( fileMessage = (FileMessage) inputStream.readObject() ) != null ) {
 					System.out.println("New file from: "+ fileMessage.getClient());
 					
-					//printer(fileMessage);
+					printer(fileMessage);
 					
 					saveFile(fileMessage);
 					
@@ -103,7 +101,7 @@ public class Client {
 			// TODO Auto-generated method stub
 			try {
 				FileInputStream fileInputStream = new FileInputStream(fileMessage.getFile());
-				FileOutputStream fileOutputStream = new FileOutputStream("c:\\fTester\\"+ nameClient+ "_for_"+ fileMessage.getClient()+ "_" + fileMessage.getFile().getName());
+				FileOutputStream fileOutputStream = new FileOutputStream("c:\\fTester\\"+ fileMessage.getFile().getName());
 				FileChannel finput = fileInputStream.getChannel();
 				FileChannel fout   = fileOutputStream.getChannel();
 				long size = finput.size();

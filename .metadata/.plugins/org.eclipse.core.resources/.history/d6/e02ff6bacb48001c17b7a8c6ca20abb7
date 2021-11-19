@@ -19,6 +19,7 @@ public class Server {
 	
 	public Server() {
 		try {
+			System.out.println("Server quase ONLINE port 5555");
 			serverSocket = new ServerSocket(5555);
 			System.out.println("Server ONLINE port 5555");
 			while (true) {
@@ -49,7 +50,7 @@ public class Server {
 				while ( ( fileMessage = (FileMessage) inputStream.readObject() ) != null ) {
 					steamMaps.put( fileMessage.getClient(), outputStream );
 					if (fileMessage.getFile() != null) {
-						System.out.println("Cliente "+fileMessage.getClient()+" enviando mensagem");
+						System.out.println("Cliente enviando mensagem");
 						
 						for (Map.Entry<String, ObjectOutputStream> m : steamMaps.entrySet() ) {
 							if (!fileMessage.getClient().equals(m.getKey() ) ) {
